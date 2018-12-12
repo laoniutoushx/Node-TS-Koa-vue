@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 稳妥构造函数
+         */
+        function PrivatePerson(name,age){
+            var o = new Object();
+            
+            var privateAttrName = name;
+            console.info(privateAttrName);
+
+            o.sayName = function(){
+                console.info('sayName:' + name);
+            }
+            return o;
+        }
+        var priPer = new PrivatePerson('haruhi', 23);
+        priPer.sayName();
+        console.info(priPer.privateAttrName);
+
+        /***
+         * Symbol 的使用
+         * /    
+         * 属性私有化   -   数据保护
+         */ 
+        
+        function Person(name, sex){
+            this.name = name;
+            this.sex = sex;
+        }
+
+        var p1 = new Person('莫涛', '男');
+        console.info(p1.name, p1.sex);
+
+        function Person1(name, sex){
+            this.name = name;
+            this.sex = sex;
+        }
+
+        var p2 = new Person1('莫涛', '男');
+        console.info(p2);
+        console.info(p2.name, p2.sex);
+         
+        // 用 Symbol 去做
+
+        var p3 = (function(){
+            let _sex = Symbol('sex');
+            function Person(name, sex){
+                this.name = name;
+                this[_sex] = sex;
+            }
+            return Person;
+        })();
+        var p33 = new p3('老牛头', '男');
+        console.info(p33);
+        console.info(p33.name, p33[Symbol('_sex')]);
+    </script>
+</body>
+</html>

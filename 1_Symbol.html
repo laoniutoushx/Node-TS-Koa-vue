@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        /**
+
+            Symbol 
+                ES6 新增的数据类型  - 基本类型
+                值是由 Symbol 函数调用产生
+
+            Symbol 
+        */
+
+        var s1 = Symbol();
+        var s2 = Symbol();
+
+        console.info(typeof s1);
+        console.info(s1, s2);
+
+        var s3 = Symbol('miaov');
+
+        var s4 = Symbol('miaov');
+
+        console.info(s3, s4);
+
+        console.info(s3 === s4);
+    </script>
+</body>
+</html>

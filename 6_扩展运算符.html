@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        /***
+         * 扩展运算符
+         */
+
+        // 把数组对象转换成参数序列, (使用 ， 分隔的序列)
+
+        // ['a', 'b', 'c'] => 'a','b','c'
+        // {left: 100, top: 200} => left: 100, top: 200
+
+        var arr = [1, 7, 4, 99];
+        console.info(...arr);
+        console.info(Math.max(...arr));
+        
+
+        // 合并数组
+        var arr1 = ['a', 's', 'd'];
+
+        console.info([...arr, ...arr1]);
+
+        // 合并对象
+        var obj1 = {haruhi: 'nlj', nagato:'1234'};
+        var obj2 = {left: 100, top: 200};
+        console.info({...obj1, ...obj2});
+    </script>
+
+</body>
+</html>

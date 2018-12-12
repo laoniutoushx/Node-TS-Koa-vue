@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        /*
+            解构赋值
+        */
+
+        let [a, b, c] = [1, 2, 3];
+        console.info(a, b, c);
+        
+
+        // 对象解构
+        
+        let {foo, bar} = {foo: 'aaa', bar: 'bbb'};
+
+        console.info(foo, bar);
+
+         let {left: L, top: T} = {left: 100, top: 200};
+
+        console.info(L, T);
+
+        let [s, t] = 'haruhi';
+        console.info(s, t);
+    </script>
+
+</body>
+</html>

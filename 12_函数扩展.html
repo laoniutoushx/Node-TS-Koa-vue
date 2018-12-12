@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    
+        var fn = function(first, ...argother){
+            console.info(first);
+
+            for(var arg in argother){
+                console.info(arg);
+            }
+        }
+
+        fn('haruhi', 1, 23, 4, 55);
+
+        // 箭头函数
+
+        // 箭头函数 this 在函数创建器绑定
+
+        var fn2 = () => {console.info('jiantou')};
+        console.info(fn2());
+
+        let fn4 = x => x + 100;
+        console.info(fn4(1));
+
+        var lis = document.querySelectorAll('li');
+        for(let i = 0; i < lis.length; i++){
+            lis[i].onclick = function(){
+                // 绑定过一秒之后改变颜色
+                // 默认情况下 使用
+                setTimeout(function(){
+                    // 此处 函数 this 以指向 window
+                }, 1000);
+
+                setTimeout(() => {
+                    
+                }, // );
+
+            }
+        }
+
+    </script>
+</body>
+</html>
