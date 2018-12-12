@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    
+        var elements = document.querySelectorAll('*');
+        for(var attr in elements){
+            console.info(attr);
+        }
+        for(var attr of elements){
+            console.info(attr);
+        }
+
+        var obj = {
+            name: 'haruhi',
+            age: 12
+        };
+
+        obj[Symbol.iterator] = function(){  // 为 obj 对象创建一个迭代器
+            let i = 0, keys = Object.keys(obj), len = keys.length;
+            return {
+                next: function(){
+                    if(i < len){
+                        return {
+                            value: 'name:' + keys[i] + ', value:' + obj[keys[i++]],
+                            done: false,
+                        }
+                    }else{
+                        return {
+                            done: true,         // true 终止迭代器
+                        }
+                    }
+                }
+            }
+        };
+
+        for(var o of obj){
+            console.info(o);
+        }
+
+    </script>
+</body>
+</html>

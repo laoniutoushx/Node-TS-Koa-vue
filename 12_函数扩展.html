@@ -23,6 +23,10 @@
 
         // 箭头函数 this 在函数创建器绑定
 
+        // 箭头函数没有 arguments 参数
+
+        // 箭头函数 不能作为 构造函数 （生成器函数）
+
         var fn2 = () => {console.info('jiantou')};
         console.info(fn2());
 
@@ -37,11 +41,13 @@
                 setTimeout(function(){
                     // 此处 函数 this 以指向 window
                 }, 1000);
-
+                
                 setTimeout(() => {
-                    
-                }, // );
+                    // 此处 函数 this 指向 lis
+                }, 1000);
 
+                var fn = () => {};  // 与上面相同， fn 内部 this 制定为 lis【i】
+                setTimeout(fn, 1000);
             }
         }
 
