@@ -16,5 +16,40 @@
         }
         console.info(JSON.stringify(obj));
     </script>
+
+    <script>
+    
+        function Menu(name, pos){
+            this.name = name || 'default yuki';
+            this.pos = pos || 'no pos';
+        }
+
+        Menu.prototype.desc = function(){
+            return 'name:' + this.name + ', pos:' + this.pos;
+        }
+
+        function pullMenu(ispull){
+            this.ispull = ispull;
+        }
+
+        pullMenu.prototype = new Menu();
+
+        var menu = new Menu('haruhi', 'left');
+        console.info(menu.desc());
+        var pm = new pullMenu(true);
+        console.info(pm.desc());
+        console.info(pm.ispull);
+        console.info(menu.desc());
+
+        function sliderMenu(name, pos, slider){
+            Menu.call(this, name, pos);
+            this.slider = slider || true;
+        }
+
+        var sm = new sliderMenu('haruhi', 'right', false);
+        console.log(sm);
+
+
+    </script>
 </body>
 </html>
