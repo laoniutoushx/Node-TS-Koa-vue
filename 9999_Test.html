@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+            if(!(this.say instanceof Function)){
+                console.info('init say prototype function');
+                Person.prototype.say = function(){
+                    console.info(this.name);
+                }
+            }
+        }
+
+        function Student(grade){
+            this.grade = grade;
+        }
+        Student.prototype = new Person();
+
+        var s1 = new Student(5);
+        s1.say();
+        console.info(s1);
+        
+
+    </script>
+</body>
+</html>
