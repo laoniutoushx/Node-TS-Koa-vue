@@ -7,6 +7,31 @@
  const http = require('http');
 
  const fs = require('fs');
+ const Mime = require('./libs/MIME');
+
+
+console.info(Mime.getType('txt'));        // text/plain
+console.info(Mime.getType('html'));       // text/html
+console.info(Mime.getExtension('text/html')); // ['html', 'htm']
+
+
+let users = [
+    {
+        name: 'haruhi',
+        gender: '女',
+        skills: ['产品', '设计', '程序', '运维', '客服', '前台', '行政']
+    },
+    {
+        name: 'nagato',
+        gender: '男',
+        skills: ['烹饪', '门卫', '保安']
+    },
+    {
+        name: 'lulu',
+        gender: '男',
+        skills: ['招财']
+    }
+]
 
  /**
   * 创建 http 服务器
@@ -31,32 +56,48 @@
      * 
      * 头信息设置的时候需要注意的问题
      */
-    switch(req.url){
-        case '/':
-            staticSend(__dirname + '/static/index.html');
-            break;
-        case '/list':
-            staticSend(__dirname + '/static/list.html');
-            break;
-        case '/view':
-            staticSend(__dirname + '/static/view.html');
-            break;
-        case '/index.css':
-            staticSend(__dirname + '/static/index.css', {
-                'Content-Type': 'text/css;charset=utf-8'
-            });
-            break;
-        default:
-            staticSend(__dirname + '/static/404.html', {
-                'Content-Type': 'text/html;charset=utf-8'
-            }, 404);
-            break;
+    if(req.url.startsWith('/static')){
+        staticSend(__dirname + req.url);
+    }else{
+        // 动态地址
+        switch(req.url){
+            case '/user':
+                resp.setHeader('Content-type', 'application/json;charset=utf-8');
+
+                let data = users.map(user => user.name);
+
+                resp.end(JSON.stringify(data));
+                break;
+        }
     }
 
+
+    // switch(req.url){
+        
+    //     default:
+    //         staticSend(__dirname + '/static/404.html', {
+    //             'Content-Type': 'text/html;charset=utf-8'
+    //         }, 404);
+    //         break;
+    // }
+
     function staticSend(filename, headers={'Content-Type': 'text/html;charset=utf-8'}, status = 200, ){
-        resp.writeHead(status, http.STATUS_CODES[status], headers);
-        content = fs.readFileSync(filename);
-        resp.end(content);
+        if(fs.existsSync(filename)){
+            // 获取文件名后缀
+            let ext = filename.substring(filename.lastIndexOf('.') + 1);
+
+            headers["Content-Type"] = Mime.getType(ext);
+
+            resp.writeHead(status, http.STATUS_CODES[status], headers);
+            content = fs.readFileSync(filename);
+            resp.end(content);
+        }else{
+            resp.writeHead(404, http.STATUS_CODES[404], headers);
+            content = fs.readFileSync(__dirname + '/static/404.html');
+            resp.end(content);
+        }
+
+        
     }
     
  });

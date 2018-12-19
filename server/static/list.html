@@ -5,8 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.21/dist/vue.js"></script>
 </head>
 <body>
-    <h1>列表</h1>
+    <div id="app">
+
+        <h1>列表</h1>
+        <ul>
+
+            <li v-for="user of users">{{user}}</li>
+
+        </ul>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                users: []
+            },
+            created(){
+                fetch('/user').then(res => {
+                    console.info(res);
+
+                    // 返回的还是一个 promise 对象
+                    return res.json();
+                }).then(data => {
+                    console.info(data);
+                    this.users = data;
+                })
+            }
+        })
+    </script>
 </body>
 </html>
