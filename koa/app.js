@@ -1,4 +1,10 @@
 const koa = require('koa'); // 包装过的 http
+const koaStaticCache = require('koa-static-cache');     // 静态路由解析
+
+/**
+ * 初始化项目  npm init
+ * 导入 npm i koa 模块
+ */
 
 // 创建 http 服务器， 监听请求
 const app = new koa();
@@ -41,3 +47,4 @@ app.use((ctx, next) => {
 app.on('error', err => {
     console.info('错了', err);
 });
+

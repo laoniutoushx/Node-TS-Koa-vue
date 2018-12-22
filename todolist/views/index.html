@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="./static/index.css" />
+</head>
+<body>
+    <h1>{{datas.appName}}</h1>
+    <a href="./add">添加新任务</a>
+    <hr/>
+    <ul>
+        <!-- {% for task in datas.tasks %}
+            {% if task.done %}
+                {% set name = 'done' %}
+            {% else %}
+                {% set name = '' %}
+            {% endif %}
+            <li class="{{name}}">[{{task.id}}] - {{task.title}}</li>
+        {% endfor %} -->
+
+        {% for task in datas.tasks %}
+            {% if task.done %}
+                {% set name = 'done' %}
+                {% set ck = 'checked' %}
+            {% else %}
+                {% set name = '' %}
+                {% set ck = '' %}
+            {% endif %}
+            <li class="{{name}}">[{{task.id}}] - {{task.title}} 
+                <input type="checkbox" {{ck}} onclick="change({{task.id}})" />
+                <a href="./remove/{{task.id}}">删除</a>
+            </li>
+        {% endfor %}
+
+
+    </ul>
+</body>
+<script>
+    function change(id){
+        console.info(id);
+        window.location.href = './change/' + id;
+    }
+</script>
+</html>

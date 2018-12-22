@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "koa-router": "^7.4.0",
+    "koa-swig": "^2.2.1"
+  }
 }
