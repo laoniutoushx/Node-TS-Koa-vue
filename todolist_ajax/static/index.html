@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>TodoList_Ajax</h1>
+        <div>
+            <input type="text" v-model="title" />
+            <button @click="add">添加</button>
+        </div>
+        <hr/>
+        <ul>
+            <li v-for="todo of todos">      
+                <input type="checkbox" @click.prevent="toggle(todo.id)" :checked="todo.done" />
+                <span>{{todo.title}}</span>
+                <button @click.prevent="remove(todo.id)">删除</button>
+            </li>
+        </ul>
+    </div>
+
+    <!-- <button>获取数据</button> -->
+
+    <script>
+        // var button = document.querySelector('button');
+        // button.onclick = e => {
+        //     fetch('/').then(res => {
+        //         return res.text();
+        //     }).then(data => {
+        //         console.info(data);
+        //     });
+        // };
+        
+        new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                todos: [],
+            },
+            created() {
+                // 初始化页面加载时发送一个请求任务列表数据
+                fetch('/todos').then(res => {
+                    return res.json();
+                }).then(data => {
+                    this.todos = data;
+                });
+            },
+            methods: {
+                toggle(id){
+                    // 发送请求到后端，修改当前数据的状态
+                    fetch('/toggle', {
+                        method: 'post',
+                        body: JSON.stringify({id}),
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        let todo = this.todos.find(todo => todo.id == data.id);
+                        todo.done = data.done;
+                    });
+                },
+                remove(id){
+                    // 发送请求到后端，修改当前数据的状态
+                    fetch('/remove', {
+                        method: 'post',
+                        body: JSON.stringify({id}),
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        this.todos = this.todos.filter(todo => todo.id != data.id);
+                    });
+                },
+                add(){
+                    // 发送请求到后端，修改当前数据的状态
+                    fetch('/add', {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({title: this.title}),
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        this.todos.push(data);
+                        this.title = '';
+                    });
+                }
+            }
+        });
+
+
+    </script>
+</body>
+</html>

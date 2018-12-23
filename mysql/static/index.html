@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>App</h1>
+        <input type="text" v-model="title" />
+        <button @click="add">添加</button>
+
+        <hr/>
+        <ul>
+            <li v-for="todo of todos" :key="todo.id">{{todo.title}} <button @click="remove(todo.id)">删除</button></li>
+        </ul>
+    </div>
+
+    <script>
+        
+        new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                todos: [],
+            },
+            created() { // 初始化时执行的方法
+                fetch('/todos').then(res => {
+                    return res.json();
+                }).then(data => {
+                    console.info(data);
+                    this.todos = data;
+                });
+            },
+            methods: {
+                add() {
+                    fetch('/add', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({title: this.title}),
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        this.todos = data;
+                        this.title = '';
+                    });
+                },
+                remove(id) {
+                    fetch('/remove', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({id}),
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        this.todos = data;
+                    });
+                },
+            }
+        });
+
+    </script>
+</body>
+</html>
