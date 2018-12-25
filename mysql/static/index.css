@@ -1,0 +1,8 @@
+.done span {
+    text-decoration: line-through;
+    color: #cccccc;
+}
+
+.pages a {
+    margin-right: 15px;
+}

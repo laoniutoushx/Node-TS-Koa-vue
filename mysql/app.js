@@ -30,8 +30,22 @@
         //     {id: 2, title: '学习 koa', done: false},
         //     {id: 3, title: '学习 数据库', done: false}
         // ];
-        const [data] = await connection.query('SELECT id, title, done FROM TODOS');
-        ctx.body = data;
+        let curPage = ctx.query.curPage || 1;       // ?haruhi=lsdjf&lj=12
+        let curPageSize = ctx.query.curPageSize || 3;
+        let sql = ` FROM TODOS ORDER BY id DESC `;
+        const [data] = await connection.query(
+            'SELECT id, title, done ' + sql +  ` LIMIT ${curPageSize} OFFSET ${(curPage-1)*curPageSize} `);
+        
+        // 查询总记录数
+        const [dataAll] = (await connection.query('SELECT id, title, done ' + sql));
+        let pages = Math.ceil(dataAll.length / curPageSize);
+
+        ctx.body = {
+            data,
+            curPage,
+            curPageSize,
+            pages,
+        };
     });
 
     router.post('/add', async ctx => {
