@@ -17,11 +17,17 @@
         <hr/>
         <ul>
             <li v-for="todo of todos" :key="todo.id" :class="{done: todo.done}">
+                <input type="checkbox" :checked="todo.done" @click.prevent="toggle(todo.id, !todo.done)" />
                 <span>#{{todo.id}} {{todo.title}}</span><button @click="remove(todo.id)">删除</button>
             </li>
         </ul>
         <div class="pages">
             <a @click.prevent="changePage(n)" href="" v-for="n of pages">{{n}}</a>
+        </div>
+        <div class="footer">
+            <button :class="{active: type===''}" @click="changeType('')">所有</button>
+            <button :class="{active: type===1}" @click="changeType(1)">已完成</button>
+            <button :class="{active: type===2}" @click="changeType(0)">未完成</button>
         </div>
     </div>
 
@@ -35,13 +41,16 @@
                 curPageSize: 3,
                 pages: 0,   // 总页数
                 todos: [],
+                type: '',   // 查询类型  【所有，已完成，未完成】
             },
             created() { // 初始化时执行的方法
                 this.list();
             },
             methods: {
                 list() {
-                    fetch('/todos?curPage=' + this.curPage + '&curPageSize=' + this.curPageSize).then(res => {
+                    fetch('/todos?curPage=' + this.curPage 
+                        + '&curPageSize=' + this.curPageSize 
+                        + '&type=' + this.type).then(res => {
                         return res.json();
                     }).then(data => {
                         this.todos = data.data;
@@ -52,6 +61,10 @@
                 },
                 changePage(n) {
                     this.curPage = n;
+                    this.list();
+                },
+                changeType(m){
+                    this.type = m;
                     this.list();
                 },
                 add() {
@@ -81,6 +94,19 @@
                         this.todos = data;
                     });
                 },
+                toggle(id, done){
+                    fetch('/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({id, done}),
+                    }).then(res => {
+                        return res.json();
+                    }).then(data => {
+                        this.list();
+                    });
+                }
             }
         });
 

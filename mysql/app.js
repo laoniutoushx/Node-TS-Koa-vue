@@ -32,12 +32,22 @@
         // ];
         let curPage = ctx.query.curPage || 1;       // ?haruhi=lsdjf&lj=12
         let curPageSize = ctx.query.curPageSize || 3;
-        let sql = ` FROM TODOS ORDER BY id DESC `;
+        let type = ctx.query.type;
+        let sql = ` FROM TODOS  `;
+        let sql_where = '';
+        if(type !== ''){
+            sql_where = ' WHERE done = \'' + type + '\' ';
+            sql += sql_where;
+        }
+        sql += ' ORDER BY id DESC ';
+
+        console.info('SELECT id, title, done ' + sql +  ` LIMIT ${curPageSize} OFFSET ${(curPage-1)*curPageSize} `);
         const [data] = await connection.query(
             'SELECT id, title, done ' + sql +  ` LIMIT ${curPageSize} OFFSET ${(curPage-1)*curPageSize} `);
-        
+
         // 查询总记录数
         const [dataAll] = (await connection.query('SELECT id, title, done ' + sql));
+
         let pages = Math.ceil(dataAll.length / curPageSize);
 
         ctx.body = {
@@ -65,6 +75,19 @@
         await connection.query('DELETE FROM TODOS WHERE id = ' + id);
         const [data] = await connection.query('SELECT id, title, done FROM TODOS');
         ctx.body = data;
+    });
+
+    router.post('/update', async ctx => {
+        let id = ctx.request.body.id;
+        let done = ctx.request.body.done;
+        if(done){
+            done = '1';
+        }else{
+            done = '0';
+        }
+        console.info(id);
+        await connection.query('UPDATE TODOS SET ??=? WHERE ??=?', ['done', done, 'id', id]);
+        ctx.body = {code: '0000'};
     });
 
     app.use(router.routes());

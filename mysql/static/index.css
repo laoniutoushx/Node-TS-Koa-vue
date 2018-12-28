@@ -6,3 +6,7 @@
 .pages a {
     margin-right: 15px;
 }
+
+.footer button.active {
+    background: yellow;
+}
