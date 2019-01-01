@@ -63,7 +63,7 @@ export default {
 
             axios({
                 method: 'get',
-                url: 'http://127.0.0.1',
+                url: '/api',
                 params: {
                     curPage: this.curPage,
                     pageCount: this.pageCount,

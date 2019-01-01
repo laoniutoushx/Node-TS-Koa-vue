@@ -7,10 +7,10 @@
 
     const app = new Koa();
 
-    app.use(async (ctx, next) => {
-        ctx.set('Access-Control-Allow-Origin', '*');
-        await next();
-    });
+    // app.use(async (ctx, next) => {
+    //     ctx.set('Access-Control-Allow-Origin', '*');
+    //     await next();
+    // });
 
     app.use(KoaStaticCache({
         dir: '/public',
